@@ -82,7 +82,6 @@ public class Camera extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Log.d("???", currentPhotoPath+"");
             Bitmap bm = BitmapFactory.decodeFile(currentPhotoPath);
             imageView.setImageBitmap(bm);
         }

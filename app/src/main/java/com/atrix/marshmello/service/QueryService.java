@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 public class QueryService extends Service {
+
     public QueryService() {
     }
     public static void startService(Context context){
