@@ -17,7 +17,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:Height="280dp">
+            >
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -37,14 +37,14 @@
 
                 <ImageView
                     android:id="@+id/image1"
-                    android:layout_width="220"
-                    android:layout_height="220"
+                    android:layout_width="220dp"
+                    android:layout_height="220dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentBottom="true"
 
                     android:layout_marginBottom="0dp"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@mipmap/人" />
+                    app:srcCompat="@mipmap/person" />
             </RelativeLayout>
 
 
