@@ -16,14 +16,14 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
 
 public class Camera extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO = 1;
@@ -33,9 +33,18 @@ public class Camera extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
         setContentView(R.layout.layout1);
-        imageView = (ImageView)findViewById(R.id.test);
-        dispatchTakePictureIntent();
+        Button button = (Button)findViewById(R.id.button_test);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dispatchTakePictureIntent();
+            }
+        });
+
     }
 
     private void dispatchTakePictureIntent() {
@@ -82,8 +91,8 @@ public class Camera extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bitmap bm = BitmapFactory.decodeFile(currentPhotoPath);
-            imageView.setImageBitmap(bm);
+//            Bitmap bm = BitmapFactory.decodeFile(currentPhotoPath);
+//            imageView.setImageBitmap(bm);
         }
     }
 

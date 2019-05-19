@@ -37,6 +37,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Camera"/>
+        <activity android:name=".Shop"/>
+        <activity android:name=".Account"/>
     </application>
 
 </manifest>
