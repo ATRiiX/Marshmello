@@ -26,6 +26,9 @@ public class Camera extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
         setContentView(R.layout.layout1);
 //        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image

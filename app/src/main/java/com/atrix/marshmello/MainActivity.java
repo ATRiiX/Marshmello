@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -32,14 +33,18 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_account:
                     mTextMessage.setText(R.string.title_account);
-                    Intent intent = new Intent(MainActivity.this, Camera.class);
-                    startActivity(intent);
+                    Intent intent1 = new Intent(MainActivity.this, Account.class);
+                    startActivity(intent1);
                     return true;
                 case R.id.navigation_shopping:
                     mTextMessage.setText(R.string.title_shopping);
+                    Intent intent2 = new Intent(MainActivity.this, Shop.class);
+                    startActivity(intent2);
                     return true;
                 case R.id.navigation_camera:
                     mTextMessage.setText(R.string.title_camera);
+                    Intent intent3 = new Intent(MainActivity.this, Camera.class);
+                    startActivity(intent3);
                     return true;
             }
             return false;
@@ -59,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initPermission();
+        if (getSupportActionBar() != null){
+            getSupportActionBar().hide();
+        }
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         mTextMessage = findViewById(R.id.message);
