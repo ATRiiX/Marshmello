@@ -1,5 +1,6 @@
 package com.atrix.marshmello;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_account:
                     mTextMessage.setText(R.string.title_account);
+//                    Intent intent = new Intent(MainActivity.this, Camera.class);
+//                    startActivity(intent);
                     return true;
                 case R.id.navigation_shopping:
                     mTextMessage.setText(R.string.title_shopping);
