@@ -20,6 +20,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.atrix.marshmello.service.QueryService;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -30,6 +32,7 @@ public class Camera extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView imageView;
     private String currentPhotoPath;
+    private QueryService.QueryInit x;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +47,8 @@ public class Camera extends AppCompatActivity {
                 dispatchTakePictureIntent();
             }
         });
-
+        x = new QueryService.QueryInit();
+        x.bindservice(this);
     }
 
     private void dispatchTakePictureIntent() {
@@ -91,8 +95,9 @@ public class Camera extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            Bitmap bm = BitmapFactory.decodeFile(currentPhotoPath);
+            Bitmap bm = BitmapFactory.decodeFile(currentPhotoPath);
 //            imageView.setImageBitmap(bm);
+            x.getBind().cacheSensorData(currentPhotoPath);
         }
     }
 
