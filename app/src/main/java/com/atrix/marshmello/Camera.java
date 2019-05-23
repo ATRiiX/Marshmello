@@ -1,21 +1,16 @@
 package com.atrix.marshmello;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,16 +24,21 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class Camera extends Fragment {
-//    private static final int REQUEST_TAKE_PHOTO = 1;
-//    private static final int REQUEST_IMAGE_CAPTURE = 1;
-//    private ImageView imageView;
-//    private String currentPhotoPath;
-//    private QueryService.QueryInit x;
+
+    private int[] cid;
+    private List<CardView> container;
+    private static final int REQUEST_TAKE_PHOTO = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private ImageView imageView;
+    private String currentPhotoPath;
+    private QueryService.QueryInit x;
     public static Camera newInstance() {
         Camera fragment = new Camera();
         return fragment;
@@ -59,7 +59,7 @@ public class Camera extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Button button = (Button) getActivity().findViewById(R.id.button_test);
+        Button button = getActivity().findViewById(R.id.button_test);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,8 +68,13 @@ public class Camera extends Fragment {
 //                dispatchTakePictureIntent();
             }
         });
-//        x = new QueryService.QueryInit();
-//        x.bindservice(getContext());
+        x = new QueryService.QueryInit();
+        x.bindservice(getContext());
+
+
+        super.onActivityCreated(savedInstanceState);
+        initCid();
+        initContainer();
     }
 
 
@@ -129,5 +134,28 @@ public class Camera extends Fragment {
         }
     }
 
+    private void initContainer() {
+        container = new LinkedList<>();
+        for (int i = 0; i < cid.length; i++) {
+            CardView v = getActivity().findViewById(cid[i]);
+            v.setOnClickListener(new Camera.MyListener());
+            container.add(v);
+        }
+    }
+
+    private void initCid() {
+        cid = new int[]{R.id.tip1, R.id.tip2, R.id.tip3, R.id.tip4, R.id.tip5, R.id.tip6};
+    }
+
+
+    class MyListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent();
+            intent.setAction("com.atrix.marshmello.TipsAction");
+
+            startActivity(intent);
+        }
+    }
 }
 
