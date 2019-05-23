@@ -53,6 +53,7 @@
         <activity android:name=".Shop" />
         <activity android:name=".Account" />
         <activity android:name=".DetectResult" />
+        <activity android:name=".HistoryDetect" />
     </application>
 
 </manifest>

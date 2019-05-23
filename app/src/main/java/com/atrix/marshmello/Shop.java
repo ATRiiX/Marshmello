@@ -1,18 +1,14 @@
 package com.atrix.marshmello;
 
-import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,14 +46,14 @@ public class Shop extends Fragment {
     private void initContainer() {
         container = new LinkedList<>();
         for(int i = 0; i < cid.length; i++) {
-            CardView v = (CardView)getActivity().findViewById(cid[i]);
+            CardView v = getActivity().findViewById(cid[i]);
             v.setOnClickListener(new MyListener());
             container.add(v);
         }
     }
 
     private void initCid() {
-        cid = new int[]{R.id.item_1, R.id.item_2, R.id.item_3, R.id.item_4, R.id.item_5, R.id.item_6};
+        cid = new int[]{R.id.item_1, R.id.item_2, R.id.item_3, R.id.item_4, R.id.item_5, R.id.item_6, R.id.item_7, R.id.item_8};
     }
 
 
@@ -97,6 +93,16 @@ public class Shop extends Fragment {
                     break;
                 case R.id.item_6:
                     uri = Uri.parse("https://item.taobao.com/item.htm?spm=a230r.1.14.88.201b1424LlxcCi&id=549163005848&ns=1&abbucket=18#detail");
+                    intent.setData(uri);
+                    startActivity(intent);
+                    break;
+                case R.id.item_7:
+                    uri = Uri.parse("https://item.taobao.com/item.htm?spm=a230r.1.14.58.aab147af0R3KGU&id=7683162143&ns=1&abbucket=10#detail");
+                    intent.setData(uri);
+                    startActivity(intent);
+                    break;
+                case R.id.item_8:
+                    uri = Uri.parse("https://item.taobao.com/item.htm?spm=a230r.1.14.93.2ba77733P0cSWr&id=520396697317&ns=1&abbucket=10#detail");
                     intent.setData(uri);
                     startActivity(intent);
                     break;

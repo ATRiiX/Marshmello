@@ -25,6 +25,7 @@
 
             <ImageButton
                 style="@android:style/Widget.Holo.Light.ImageButton"
+                android:id="@+id/collections"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -63,7 +64,7 @@
                         android:paddingEnd="35dp"
 
 
-                        android:text="干性皮肤由于肌肤缺水，很容易造成干燥、脆弱等现象。\n\n干性皮肤在选择清洁护肤品时，要选用亲水性高、含保湿因子、不含油脂的洁面乳，或对皮肤刺激小的含有甘油的香皂。\n\n不要使用粗劣的肥马洗脸，有时也可不用香皂，只用清水洗脸，以免抑制皮脂和汗液的分泌，使得皮肤更加干燥。"
+                        android:text="干性皮肤由于肌肤缺水，很容易造成干燥、脆弱等现象。\n\n干性皮肤在选择清洁护肤品时，要选用亲水性高、含保湿因子、不含油脂的洁面乳，或对皮肤刺激小的含有甘油的香皂。\n\n不要使用粗劣的肥皂洗脸，有时也可不用香皂，只用清水洗脸，以免抑制皮脂和汗液的分泌，使得皮肤更加干燥。"
                         android:textColor="#ffffff"
                         android:textSize="22dp" />
                 </ScrollView>

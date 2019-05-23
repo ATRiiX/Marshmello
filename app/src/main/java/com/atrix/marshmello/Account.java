@@ -1,12 +1,16 @@
 package com.atrix.marshmello;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Account extends Fragment {
 
@@ -18,9 +22,7 @@ public class Account extends Fragment {
     @Override
     public  void onCreate(Bundle savedInstanceState)
     {
-
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -33,6 +35,17 @@ public class Account extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Button button = getActivity().findViewById(R.id.button_record);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), HistoryDetect.class);
+                startActivity(intent);
+            }
+        });
+        TextView textView = getActivity().findViewById(R.id.textView);
+        SharedPreferences storge = getActivity().getSharedPreferences("data", MODE_PRIVATE);
+        textView.setText("Ada \n\n肤质：" + storge.getString("type", ""));
     }
 }
 

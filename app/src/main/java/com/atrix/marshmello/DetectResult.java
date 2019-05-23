@@ -1,11 +1,14 @@
 package com.atrix.marshmello;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
@@ -13,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -24,8 +26,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static java.security.AccessController.getContext;
-
 public class DetectResult extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -34,6 +34,8 @@ public class DetectResult extends AppCompatActivity {
     private String currentPhotoPath;
     private QueryService.QueryInit x;
     private Thread thread;
+    private Handler handler;
+    private boolean fetch;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +46,18 @@ public class DetectResult extends AppCompatActivity {
         x = new QueryService.QueryInit();
         x.bindservice(this);
         dispatchTakePictureIntent();
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
-        textView = (TextView)findViewById(R.id.textView_res);
-//        textView.setText("Ada,\n您的肤质为 干性" + data);
-        progressBar.setVisibility(View.INVISIBLE);
-        Button back = (Button)findViewById(R.id.button_ret_from_res);
+        progressBar = findViewById(R.id.progressBar);
+        textView = findViewById(R.id.textView_res);
+        Button back = findViewById(R.id.button_ret_from_res);
         back.setOnClickListener(new MyListener());
+        Button history = findViewById(R.id.button_to_cal);
+        history.setOnClickListener(new MyListener());
+    }
+
+    private void initSharedPreferences(String s) {
+        SharedPreferences.Editor logInFlag = getSharedPreferences("data", MODE_PRIVATE).edit();
+        logInFlag.putString("type", s);
+        logInFlag.apply();
     }
 
     private void dispatchTakePictureIntent() {
@@ -96,26 +104,63 @@ public class DetectResult extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bitmap bm = BitmapFactory.decodeFile(currentPhotoPath);
+            final Bitmap bm = BitmapFactory.decodeFile(currentPhotoPath);
             x.getBind().cacheSensorData(currentPhotoPath);
             queryThread thread1 = new queryThread();
-            thread1.init(textView, progressBar, x);
+            handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    switch (msg.what) {
+                        case 1:
+                            progressBar.setVisibility(View.INVISIBLE);
+                            textView.setText(checkString((String) msg.obj));
+
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                public String checkString(String res) {
+                    int flag = res.indexOf("basketball");
+                    if (flag == -1) {
+                        return "Ada, 识别失败！请重新拍照";
+                    } else {
+                        String type = "";
+                        switch (res.charAt(flag + 11)) {
+                            case '0':
+                                initSharedPreferences("干性");
+                                type = "Ada, 您的肤质为干性";
+                                break;
+                            case '1':
+                                initSharedPreferences("中性");
+                                type = "Ada, 您的肤质为中性";
+                                break;
+                            case '2':
+                                initSharedPreferences("混合性");
+                                type = "Ada, 您的肤质为混合性";
+                                break;
+                            case '3':
+                                initSharedPreferences("油性");
+                                type = "Ada, 您的肤质为油性";
+                                break;
+                            default:
+                                break;
+                        }
+                        return type;
+                    }
+                }
+            };
             thread = new Thread(thread1);
             thread.start();
-            textView.setText("Ada,\n您的肤质为 ");
+            textView.setText("Ada,您的肤质为 ");
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_CANCELED) {
+            finish();
         }
 
     }
     class queryThread implements Runnable {
-        TextView textView;
-        ProgressBar progressBar;
-        QueryService.QueryInit x;
-        public void init(TextView textView, ProgressBar progressBar, QueryService.QueryInit x){
-            this.textView = textView;
-            this.progressBar = progressBar;
-            this.x = x;
-        }
-
         public void run(){
             while(!x.getBind().fetchEnable()) {
                 try {
@@ -124,9 +169,11 @@ public class DetectResult extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-            progressBar.setVisibility(View.INVISIBLE);
+            Message message = handler.obtainMessage();
+            message.what = 1;
             String data = x.getBind().fetchData();
-            textView.setText("Ada,\n您的肤质为 干性" + data);
+            message.obj = data;
+            handler.sendMessage(message);
         }
     }
 
@@ -140,6 +187,8 @@ public class DetectResult extends AppCompatActivity {
                     finish();
                     break;
                 case R.id.button_to_cal:
+                    intent = new Intent(v.getContext(), HistoryDetect.class);
+                    startActivity(intent);
                     break;
                     default:
                         break;

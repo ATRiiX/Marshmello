@@ -12,22 +12,17 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.atrix.marshmello.DetectResult;
 import com.atrix.marshmello.network.ClientFactory;
 import com.atrix.marshmello.network.MarshmelloInterface;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
-import java.io.StringWriter;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.http.Multipart;
 
 public class QueryService extends Service {
     public QueryService() {
@@ -50,7 +45,7 @@ public class QueryService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        path = new String();
+        path = "";
         queryth=new Thread();
         binder=new QueryBind();
         isfetched = false;
@@ -69,6 +64,10 @@ public class QueryService extends Service {
         }
         queryth=new Thread(new QueryRunnable());
         queryth.start();
+    }
+
+    private void cleanDataZone() {
+        path = "";
     }
 
     protected class QueryRunnable implements Runnable{
@@ -96,7 +95,7 @@ public class QueryService extends Service {
                 }while (queryStatus.code()!= 200);
                 isfetched = true;
                 queryType = queryStatus.body().string();
-                showMessage(queryType);
+//                showMessage(queryType);
             }catch (IOException e){
                 e.printStackTrace();
             }catch (InterruptedException e){
@@ -106,10 +105,6 @@ public class QueryService extends Service {
             }
             cleanDataZone();
         }
-    }
-
-    private void cleanDataZone(){
-        path = new String();
     }
 
     private void showMessage(final String msg
