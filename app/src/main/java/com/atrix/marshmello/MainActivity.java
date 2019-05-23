@@ -11,6 +11,8 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    Fragment selectedFragment = Camera.newInstance();
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -32,16 +35,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_account:
-                    Intent intent1 = new Intent(MainActivity.this, Account.class);
-                    startActivity(intent1);
+                    clickMe();
                     return true;
                 case R.id.navigation_shopping:
-                    Intent intent2 = new Intent(MainActivity.this, Shop.class);
-                    startActivity(intent2);
+                    clickShop();
                     return true;
                 case R.id.navigation_camera:
-                    Intent intent3 = new Intent(MainActivity.this, Camera.class);
-                    startActivity(intent3);
+                    clickPic();
                     return true;
             }
             return false;
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
         setContentView(R.layout.activity_main);
+        clickPic();
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
@@ -140,4 +141,27 @@ public class MainActivity extends AppCompatActivity {
     private void cancelPermissionDialog() {
         mPermissionDialog.cancel();
     }
+
+    private void clickPic()
+    {
+        selectedFragment = Camera.newInstance();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, selectedFragment);
+        transaction.commit();
+    }
+    private void clickShop()
+    {
+        selectedFragment = Shop.newInstance();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, selectedFragment);
+        transaction.commit();
+    }
+    private void clickMe()
+    {
+        selectedFragment = Account.newInstance();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, selectedFragment);
+        transaction.commit();
+    }
+
 }
