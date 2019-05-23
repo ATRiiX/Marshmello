@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class Camera extends Fragment {
@@ -117,7 +118,9 @@ public class Camera extends Fragment {
             Bitmap bm = BitmapFactory.decodeFile(currentPhotoPath);
             x.getBind().cacheSensorData(currentPhotoPath);
             Intent intent = new Intent(getContext(), DetectResult.class);
-            startActivity(intent);
+            startActivityForResult(intent, 3);
+        } else if(requestCode == 3 && resultCode == RESULT_CANCELED) {
+
         }
     }
 

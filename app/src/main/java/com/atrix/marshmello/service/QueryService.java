@@ -18,6 +18,7 @@ import com.atrix.marshmello.network.MarshmelloInterface;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class QueryService extends Service {
 
     protected String queryType;
     protected Thread queryth;
+    boolean isfetched;
 
 
     @Override
@@ -51,6 +53,7 @@ public class QueryService extends Service {
         path = new String();
         queryth=new Thread();
         binder=new QueryBind();
+        isfetched = false;
         marshmelloInterface = ClientFactory.newInterface();
     }
 
@@ -91,7 +94,8 @@ public class QueryService extends Service {
                         throw new IOException("Time Out");
                     }
                 }while (queryStatus.code()!= 200);
-                queryType= queryStatus.body().string();
+                isfetched = true;
+                queryType = queryStatus.body().string();
                 showMessage(queryType);
             }catch (IOException e){
                 e.printStackTrace();
@@ -154,6 +158,14 @@ public class QueryService extends Service {
             }
             path = data;
             stateChecker();
+        }
+        public boolean fetchEnable() {
+            return isfetched;
+        }
+
+        public String fetchData(){
+            isfetched = false;
+            return queryType;
         }
     }
 }
