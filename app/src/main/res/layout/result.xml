@@ -38,7 +38,7 @@
         android:layout_marginEnd="8dp"
         android:text="返 回"
         android:textSize="17dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_res" />
@@ -53,7 +53,7 @@
         android:layout_marginEnd="8dp"
         android:background="#00000000"
         android:text="历史检测记录"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorBack"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

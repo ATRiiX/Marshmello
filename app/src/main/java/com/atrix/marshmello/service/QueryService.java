@@ -12,6 +12,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.atrix.marshmello.DetectResult;
 import com.atrix.marshmello.network.ClientFactory;
 import com.atrix.marshmello.network.MarshmelloInterface;
 
@@ -91,7 +92,6 @@ public class QueryService extends Service {
                     }
                 }while (queryStatus.code()!= 200);
                 queryType= queryStatus.body().string();
-                Log.d("debug", queryType);
                 showMessage(queryType);
             }catch (IOException e){
                 e.printStackTrace();

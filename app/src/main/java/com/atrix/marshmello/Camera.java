@@ -115,8 +115,9 @@ public class Camera extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bitmap bm = BitmapFactory.decodeFile(currentPhotoPath);
-//            imageView.setImageBitmap(bm);
             x.getBind().cacheSensorData(currentPhotoPath);
+            Intent intent = new Intent(getContext(), DetectResult.class);
+            startActivity(intent);
         }
     }
 

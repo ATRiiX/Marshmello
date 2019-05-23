@@ -41,6 +41,7 @@
         <activity android:name=".Camera"/>
         <activity android:name=".Shop"/>
         <activity android:name=".Account"/>
+        <activity android:name=".DetectResult"/>
     </application>
 
 </manifest>
